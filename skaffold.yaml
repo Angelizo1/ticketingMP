@@ -1,0 +1,63 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/k8s/*
+build:
+  local:
+    push: false
+  artifacts:
+    # - image: us.grc.io/gifted-harmony-356014/auth
+    - image: pruebapaginas01/auth
+      context: auth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: . 
+            src: 'src/**/.ts'
+  # googleCloudBuild:
+    # projectId: gifted-harmony-356014
+    - image: pruebapaginas01/client
+      context: client 
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: . 
+            src: '**/*.ts'
+    - image: pruebapaginas01/tickets
+      context: tickets 
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: . 
+            src: '**/*.ts'
+    - image: pruebapaginas01/orders
+      context: orders 
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: . 
+            src: '**/*.ts'
+    - image: pruebapaginas01/expiration
+      context: expiration 
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: . 
+            src: '**/*.ts'
+    - image: pruebapaginas01/payments
+      context: payments 
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: . 
+            src: '**/*.ts'
+
+  
